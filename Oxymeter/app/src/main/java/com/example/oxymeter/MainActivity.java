@@ -100,7 +100,7 @@ public class MainActivity<LeDeviceListAdapter> extends AppCompatActivity {
         data_1.setText("Acc X Raw Axis:");
         data_2.setText("Acc Y Raw Axis: ");
         data_3.setText("Acc Z Raw Axis: ");
-        data_4.setText("Acc Z Raw Axis: ");
+        data_4.setText("");
 
         btn_scan.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -262,6 +262,7 @@ public class MainActivity<LeDeviceListAdapter> extends AppCompatActivity {
                 mConnectionState = STATE_DISCONNECTED;
 
                 Log.i(TAG, "Disconnected from GATT server.");
+                btn_connect.setText("Connect");
 
                 broadcastUpdate(intentAction);
             }
@@ -290,7 +291,7 @@ public class MainActivity<LeDeviceListAdapter> extends AppCompatActivity {
                     return;
                 }
                 else {
-                    // Battery level Charicterictic {
+                    // Battery level Characterictic {
                     Log.i(TAG, "Battery service found!");
 
                     battery_characteristic = battery_service.getCharacteristic(BATTERY_LEVEL_CHARACTERISTIC_UUID);
@@ -316,28 +317,28 @@ public class MainActivity<LeDeviceListAdapter> extends AppCompatActivity {
                     // Acc axis X Characteristic {
                     acc_axis_x_characteristic = acc_axis_service.getCharacteristic(ACC_AXIS_X_CHARACTERISTIC_UUID);
                     if (acc_axis_x_characteristic == null) {
-                        Log.i(TAG, "Acc axis X Charicterictic not found!");
+                        Log.i(TAG, "Acc axis X Characterictic not found!");
                         return;
                     }
-                    Log.i(TAG, String.format("Acc axis X Charicterictic found: %s", acc_axis_x_characteristic.getUuid().toString()));
+                    Log.i(TAG, String.format("Acc axis X Characterictic found: %s", acc_axis_x_characteristic.getUuid().toString()));
                     // }
 
                     // Acc axis Y Characteristic {
                     acc_axis_y_characteristic = acc_axis_service.getCharacteristic(ACC_AXIS_Y_CHARACTERISTIC_UUID);
                     if (acc_axis_y_characteristic == null) {
-                        Log.i(TAG, "Acc axis Y Charicterictic not found!");
+                        Log.i(TAG, "Acc axis Y Characterictic not found!");
                         return;
                     }
-                    Log.i(TAG, String.format("Acc axis Y Charicterictic found: %s", acc_axis_y_characteristic.getUuid().toString()));
+                    Log.i(TAG, String.format("Acc axis Y Characterictic found: %s", acc_axis_y_characteristic.getUuid().toString()));
                     // }
 
                     // Acc axis Z Characteristic {
                     acc_axis_z_characteristic = acc_axis_service.getCharacteristic(ACC_AXIS_Z_CHARACTERISTIC_UUID);
                     if (acc_axis_z_characteristic == null) {
-                        Log.i(TAG, "Acc axis Z Charicterictic not found!");
+                        Log.i(TAG, "Acc axis Z Characterictic not found!");
                         return;
                     }
-                    Log.i(TAG, String.format("Acc axis Z Charicterictic found: %s", acc_axis_z_characteristic.getUuid().toString()));
+                    Log.i(TAG, String.format("Acc axis Z Characterictic found: %s", acc_axis_z_characteristic.getUuid().toString()));
                     // }
                 }
                 // }
@@ -373,14 +374,24 @@ public class MainActivity<LeDeviceListAdapter> extends AppCompatActivity {
                 }
                 case 1:
                 {
-                    setCharacteristicNotification(acc_axis_y_characteristic, true);
                     index = 2;
                     break;
                 }
                 case 2:
                 {
-                    setCharacteristicNotification(acc_axis_z_characteristic, true);
+                    setCharacteristicNotification(acc_axis_y_characteristic, true);
                     index = 3;
+                    break;
+                }
+                case 3:
+                {
+                    index = 4;
+                    setCharacteristicNotification(acc_axis_z_characteristic, true);
+                    break;
+                }
+                case 4:
+                {
+                    index = 5;
                     break;
                 }
                 default:
